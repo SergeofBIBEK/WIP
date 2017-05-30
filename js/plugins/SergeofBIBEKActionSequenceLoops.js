@@ -4,7 +4,7 @@
  * @help
  *
  * Action Sequence Loops
- * Version 1.00
+ * Version 1.10
  * by SergeofBIBEK
  *
  *
@@ -50,10 +50,17 @@
  *     </Target Action>
  *
  * Pretty straight forward!
+ *
+ * ==========================================================================
+ *  Changelog
+ * ==========================================================================
+ *  Version 1.10 - Can now nest while loops.
+ * 
+ *
  */
 
 var Imported = Imported || {};
-Imported["SergeofBIBEK Action Sequence Loops"] = 1.00;
+Imported["SergeofBIBEK Action Sequence Loops"] = 1.10;
 
 if(Imported.YEP_BattleEngineCore)
 {
@@ -63,13 +70,13 @@ if(Imported.YEP_BattleEngineCore)
     BattleManager.processActionSequence = function(actionName, actionArgs)
     {
         // Action Sequence While Start
-        if (actionName.match(/WHILE .*/i))
+        if (actionName.match(/^\s*WHILE .*/i))
         {
             //Calls my Original Function passing in the variables.
             return this.SergeofBIBEKWhileLoopStart();
         }
         // Action Sequence While End
-        if (actionName.match(/END WHILE/i))
+        if (actionName.match(/^\s*END WHILE/i))
         {
             //Calls my Original Function passing in the variables.
             return this.SergeofBIBEKWhileLoopEnd();
@@ -91,6 +98,12 @@ if(Imported.YEP_BattleEngineCore)
         */
     BattleManager.SergeofBIBEKWhileLoopStart = function()
     {
+        if (!BattleManager.SergeofBIBEKWhileArray)
+        {
+            BattleManager.SergeofBIBEKWhileArray = [];
+        }
+
+
         //Some useful vars for the while condition
         var subject = this._subject;
         var user = this._subject;
@@ -98,34 +111,50 @@ if(Imported.YEP_BattleEngineCore)
         var targets = this._targets;
         var action = this._action;
         var item = this._action.item();
-        
+
         var loopCondition = this._actSeq[0].match(/WHILE (.*)/i)[1];
 
         //array to hold the action sequences 
-        BattleManager.SergeWhileActionSequenceArray = [];
-        BattleManager.SergeWhileLoopCondition = loopCondition;
+        BattleManager.SergeofBIBEKWhileArray.unshift([[],loopCondition]);
 
 
         //Store all commands until end while
         var foundEnd = false;
+        var newLoop = 0;
         while (!foundEnd)
         {
             var thisCommand = this._actionList.shift();
-            BattleManager.SergeWhileActionSequenceArray.push(thisCommand);
+            BattleManager.SergeofBIBEKWhileArray[0][0].push(thisCommand);
+
+            if (thisCommand[0].match(/WHILE (.*)/i))
+            {
+                newLoop++;
+            }
 
             if (thisCommand[0].match(/END WHILE/i))
             {
-                foundEnd = true;
+                if (newLoop == 0)
+                {
+                    foundEnd = true;
+                }
+                else
+                {
+                    newLoop--;
+                }
             }
         }
 
         //put them all back in if the condition has been met
-        if (eval(BattleManager.SergeWhileLoopCondition))
+        if (eval(BattleManager.SergeofBIBEKWhileArray[0][1]))
         {
-            for (var i = BattleManager.SergeWhileActionSequenceArray.length; i > 0; i--)
+            for (var i = BattleManager.SergeofBIBEKWhileArray[0][0].length; i > 0; i--)
             {
-                this._actionList.unshift(BattleManager.SergeWhileActionSequenceArray[i - 1]);
+                this._actionList.unshift(BattleManager.SergeofBIBEKWhileArray[0][0][i - 1]);
             }
+        }
+        else
+        {
+            BattleManager.SergeofBIBEKWhileArray.shift();
         }
         return true;
     };
@@ -148,14 +177,18 @@ if(Imported.YEP_BattleEngineCore)
         var targets = this._targets;
         var action = this._action;
         var item = this._action.item();
-        
+
         //put them all back in if the condition has been met
-        if (eval(BattleManager.SergeWhileLoopCondition))
+        if (eval(BattleManager.SergeofBIBEKWhileArray[0][1]))
         {
-            for (var i = BattleManager.SergeWhileActionSequenceArray.length; i > 0; i--)
+            for (var i = BattleManager.SergeofBIBEKWhileArray[0][0].length; i > 0; i--)
             {
-                this._actionList.unshift(BattleManager.SergeWhileActionSequenceArray[i - 1]);
+                this._actionList.unshift(BattleManager.SergeofBIBEKWhileArray[0][0][i - 1]);
             }
+        }
+        else
+        {
+            BattleManager.SergeofBIBEKWhileArray.shift();
         }
         return true;
     };
