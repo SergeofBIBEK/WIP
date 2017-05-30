@@ -4,7 +4,7 @@
  * @help
  *
  * Action Sequence Loops
- * Version 1.10
+ * Version 1.11
  * by SergeofBIBEK
  *
  *
@@ -54,13 +54,15 @@
  * ==========================================================================
  *  Changelog
  * ==========================================================================
- *  Version 1.10 - Can now nest while loops.
+ * Version 1.11 - Small bug fixes and compatibility improvements.
+ * 
+ * Version 1.10 - Can now nest while loops.
  * 
  *
  */
 
 var Imported = Imported || {};
-Imported["SergeofBIBEK Action Sequence Loops"] = 1.10;
+Imported["SergeofBIBEK Action Sequence Loops"] = 1.11;
 
 if(Imported.YEP_BattleEngineCore)
 {
