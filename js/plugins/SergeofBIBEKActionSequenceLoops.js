@@ -20,7 +20,7 @@
  *  How to Set Up
  * ==========================================================================
  *
- * Place this plugin below YEP_BattleEnginCore.
+ * Place this plugin below YEP_BattleEngineCore.
  *
  *
  * ==========================================================================

@@ -24,7 +24,7 @@
  *  How to Set Up
  * ==========================================================================
  *
- * Place this plugin below YEP_BattleEnginCore.
+ * Place this plugin below YEP_BattleEngineCore.
  *
  * To Setup, place the following notetags into any skill's notebox:
  *
@@ -117,7 +117,7 @@ if(Imported.YEP_BattleEngineCore)
         BattleManager.processActionSequence = function(actionName, actionArgs)
         {
           // Action Sequence Proxy
-          if (actionName.match(/PROXY[ ](\d*)[ ]FROM[ ](\d*)/i))
+          if (actionName.match(/PROXY[ ](\d+)[ ]FROM[ ](\d+)/i))
           {
               //Calls my Original Function passing in the variables.
               return this.SergeofBIBEKAddProxyCommands(RegExp.$1, RegExp.$2);
