@@ -96,3 +96,4 @@ BattleManager.SergeofBIBEK_Counter = function()
     this.refreshStatus();
     this._logWindow.startAction(this._SergeUser, action, this._targets);
 }
+

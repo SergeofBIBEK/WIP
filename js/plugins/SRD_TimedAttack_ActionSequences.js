@@ -153,14 +153,14 @@ SRD.TimedAttackActionSequences = SRD.TimedAttackActionSequences || {};
         }
     };
 
-    var _BattleManager_processActionSequenceCheck = BattleManager.processActionSequenceCheck;
-    BattleManager.processActionSequenceCheck = function(actionName, actionArgs) {
+    var _BattleManager_processActionSequence = BattleManager.processActionSequence;
+    BattleManager.processActionSequence = function(actionName, actionArgs) {
         if(actionName === "TIMED ATTACK" && this._action.item().meta.isUsingTimedAttackActionSequences) {
             this[_.pass + "Use Action Sequence"] = true;
             this[_.pass + "Action Sequence Params"] = (actionArgs.length > 0) ? actionArgs : 0;
             return false;
         }
-        return _BattleManager_processActionSequenceCheck.call(this, actionName, actionArgs);
+        return _BattleManager_processActionSequence.call(this, actionName, actionArgs);
     };
 
 	BattleManager.processTimedAttackActionSequence = function(actionName, actionArgs) {
