@@ -157,7 +157,6 @@ if(Imported.YEP_BattleEngineCore)
         while (!foundEnd)
         {
             var thisCommand = this._actionList.shift();
-            console.log(thisCommand);
 
             //new if found, let's track how deep it goes.
             if (thisCommand[0].match(/^\s*IF .*/i))
